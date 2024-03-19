@@ -261,21 +261,25 @@ pub fn conditionals() -> impl Filter<Extract = One<Conditionals>, Error = Infall
 }
 
 /// Utilized conditional headers to determine response-content
+#[allow(missing_docs)]
 #[derive(Debug, Default)]
 pub struct Conditionals {
-    if_modified_since: Option<IfModifiedSince>,
-    if_unmodified_since: Option<IfUnmodifiedSince>,
-    if_range: Option<IfRange>,
-    range: Option<Range>,
+    pub if_modified_since: Option<IfModifiedSince>,
+    pub if_unmodified_since: Option<IfUnmodifiedSince>,
+    pub if_range: Option<IfRange>,
+    pub range: Option<Range>,
 }
 
-pub(crate) enum ConditionalBody {
+#[allow(missing_docs)]
+#[derive(Debug)]
+pub enum ConditionalBody {
     NoBody(Response),
     WithBody(Option<Range>),
 }
 
 impl Conditionals {
-    pub(crate) fn check(self, last_modified: Option<LastModified>) -> ConditionalBody {
+    #[allow(missing_docs)]
+    pub fn check(self, last_modified: Option<LastModified>) -> ConditionalBody {
         if let Some(since) = self.if_unmodified_since {
             let precondition = last_modified
                 .map(|time| since.precondition_passes(time.into()))
